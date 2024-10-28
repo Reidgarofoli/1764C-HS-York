@@ -2,12 +2,14 @@
 
 //pid tuning
 void auton_0() {
-    chassis.setPose(0,0,0);
-    chassis.turnToHeading(90, 10000);
+    chassis.setPose(0,0,180);
+    chassis.moveToPose(0, 14, 180, 10000, {.forwards = false}, false);
+    mogovalue = true;
+    mogomech.set_value(mogovalue);
 }
 
 void auton_1() {
-    
+
 }
 
 void auton_2() {

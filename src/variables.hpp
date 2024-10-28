@@ -55,7 +55,7 @@ lemlib::Drivetrain drivetrain {
 	400, // drivetrain rpm is 400
 	8 // Its 8 because we have traction wheels
 };
-		
+
 // left tracking using drive motors
 lemlib::TrackingWheel left_tracking(
 	&LDrive, //Look at the left drive
@@ -71,7 +71,7 @@ lemlib::TrackingWheel right_tracking(
 	7.251, //6.2875 incheas right of the center
 	400 //Max RPM of 400
 );
-		
+
 // inertial sensor
 pros::Imu inertial(11);
 		
@@ -85,27 +85,29 @@ lemlib::OdomSensors sensors {
 };
 
 
+//13, 100: no wiggle, but overshoot
 // forward/backward PID
 lemlib::ControllerSettings lateralController {
-	10, // proportional gain (kP)
+	14, // proportional gain (kP)
 	0, // integral gain (kI)
-	3, // derivative gain (kD)
-	3, // anti windup
-	0.5, // small error range, in inches
-	500, // small error range timeout, in milliseconds
-	1, // large error range, in inches
+	90, // derivative gain (kD)
+	2.5, // anti windup
+	1, // small error range, in inches
+	100, // small error range timeout, in milliseconds
+	3, // large error range, in inches
 	500, // large error range timeout, in milliseconds
-	20 // maximum acceleration (slew)
+	0 // maximum acceleration (slew)
 };
 
+// 9, 80 is good
 // turning PID
 lemlib::ControllerSettings angularController {
-	2, // proportional gain (kP)
+	9, // proportional gain (kP)
 	0, // integral gain (kI)
-	10, // derivative gain (kD)
-	3, // anti windup
+	80, // derivative gain (kD)
+	0, // anti windup
 	1, // small error range, in degrees
-	200, // small error range timeout, in milliseconds
+	100, // small error range timeout, in milliseconds
 	3, // large error range, in degrees
 	500, // large error range timeout, in milliseconds
 	0 // maximum acceleration (slew
