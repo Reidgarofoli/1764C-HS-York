@@ -4,6 +4,7 @@
 #include "pros/motors.hpp"
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
+pros::Controller info(pros::E_CONTROLLER_PARTNER);
 
 pros::Motor RightFront(3);
 pros::Motor RightMid(1);
@@ -34,12 +35,15 @@ int intakespeed = 127;
 int maxauto = 4;
 int auton = 0;
 int midliftPOS = 0;
-double lowmid = 0;
-double midmid = -105;
-double highmid = -420;
+double lowpos = 0;
+double midpos = -105;
+double highpos = -420;
 double liftpos;
 bool mogovalue = false;
 bool doinkerValue = false;
+bool confirm = false;
+int page = 0;
+int pagenums = 1;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

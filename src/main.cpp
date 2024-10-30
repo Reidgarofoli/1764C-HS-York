@@ -8,7 +8,6 @@
 
 void on_center_button() {
 	if (team == 'r'){team = 'b';} else {team = 'r';}
-	pros::lcd::print(0, "auton:%d  team:%c", auton, team);
 	lightsCheck();
 }
 
@@ -18,7 +17,6 @@ void on_right_button() {
 	} else{
 		auton = 0;
 	}
-	pros::lcd::print(0, "auton:%d  team:%c", auton, team);
 }
 void on_left_button() {
 	if (auton != 0){
@@ -26,13 +24,13 @@ void on_left_button() {
 	} else{
 		auton = maxauto;
 	}
-	pros::lcd::print(0, "auton:%d  team:%c", auton, team);
+
 }
 
 void midlift(){
 	while (true) {
 		if (midlifter.get_position() != liftpos){
-			midlifter.move_absolute(liftpos, 200);
+			midlifter.move_absolute(liftpos, 100);
 		} else {
 			midlifter.brake();
 		}
@@ -65,11 +63,25 @@ void ringcheckers(){
 	}
 }
 
+void printinf(){
+	while(true){
+		info.clear();
+		if (page == 0) {
+			info.print(0,0, "auton:%d  team:%c", auton, team);
+			if (confirm){info.print(1,0, "confirmed");}
+			else {info.print(1,0, "not confirmed");}
+		} else if (page == 1) {
+			info.print(0,0, "f: %d, %d", (int)std::round(LeftFront.get_temperature()),(int)std::round(RightFront.get_temperature()));
+			info.print(1,0, "m: %d, %d", (int)std::round(LeftMid.get_temperature()),(int)std::round(RightMid.get_temperature()));
+			info.print(2,0, "b: %d, %d", (int)std::round(LeftBack.get_temperature()),(int)std::round(RightBack.get_temperature()));
+		}
+		pros::delay(60);
+	}
+}
+
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "code works");
-	pros::lcd::print(0, "auton:%d  team:%c", auton, team);
-
+	info.clear();
 	pros::lcd::register_btn0_cb(on_left_button);
 	pros::lcd::register_btn1_cb(on_center_button);
 	pros::lcd::register_btn2_cb(on_right_button);
@@ -78,6 +90,7 @@ void initialize() {
 
 	pros::Task liftTask(midlift);
 	pros::Task ringcheck(ringcheckers);
+	pros::Task printing(printinf);
 	lightsCheck();
 	midlifter.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	intakeLifter.set_value(intakePOS);
@@ -104,9 +117,7 @@ void autonomous() {
 
 void opcontrol() {
 	while (true) {
-		pros::lcd::print(1, "front motors: %f, %f",  LeftFront.get_temperature(),RightFront.get_temperature());
-		pros::lcd::print(2, "middle motors: %f, %f", LeftMid.get_temperature(),RightMid.get_temperature());
-		pros::lcd::print(3, "back motors: %f, %f",   LeftBack.get_temperature(),RightBack.get_temperature());
+
 		int dir = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int turn = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 		LDrive.move(dir - turn);
@@ -127,13 +138,13 @@ void opcontrol() {
 				midliftPOS = 0;
 			}
 			if (midliftPOS == 0){
-				liftpos = lowmid;
+				liftpos = lowpos;
 			}
 			if (midliftPOS == 1){
-				liftpos = midmid;
+				liftpos = midpos;
 			}
 			if (midliftPOS == 2){
-				liftpos = highmid;
+				liftpos = highpos;
 			}
 		}
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
@@ -141,13 +152,55 @@ void opcontrol() {
 			mogomech.set_value(mogovalue);
 		}
 		
-		/*if (controller.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
-			intakePOS =! intakePOS;
-			intakeLifter.set_value(intakePOS);
-		}*/
 		if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			doinkerValue = !doinkerValue;
 			doinker.set_value(doinkerValue);
+		}
+		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			info.clear();
+			if (page != 0){
+				page--;
+			} else {
+				page = pagenums;
+			}
+			
+		}
+		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+			info.clear();
+			if (page != pagenums){
+				page++;
+			} else{
+				page = 0;
+			}
+		}
+		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
+			if (!confirm) {
+				if (auton != maxauto){
+					auton++;
+				} else{
+					auton = 0;
+				}
+			}
+		}
+		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+			if (!confirm) {
+				if (auton != 0){
+					auton--;
+				} else{
+					auton = maxauto;
+				}
+			}
+		}
+		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
+			if (!confirm) {
+				if (team == 'r'){team = 'b';} else {team = 'r';}
+				lightsCheck();
+			}
+		}
+		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+			if (!confirm) {
+				confirm = true;
+			}
 		}
 		pros::delay(20);
 
