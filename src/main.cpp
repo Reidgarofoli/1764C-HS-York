@@ -30,7 +30,7 @@ void on_left_button() {
 void midlift(){
 	while (true) {
 		if (midlifter.get_position() != liftpos){
-			midlifter.move_absolute(liftpos, 100);
+			midlifter.move_absolute(liftpos*5, 100);
 		} else {
 			midlifter.brake();
 		}
@@ -65,17 +65,23 @@ void ringcheckers(){
 
 void printinf(){
 	while(true){
-		info.clear();
 		if (page == 0) {
-			info.print(0,0, "auton:%d  team:%c", auton, team);
-			if (confirm){info.print(1,0, "confirmed");}
-			else {info.print(1,0, "not confirmed");}
+			info.print(0,0, "auton:%d  team:%c"                         , auton, team);
+			pros::delay(50);
+			if (confirm){info.print(1,0, "confirmed                           ");}
+			else {info.print(1,0, "not confirmed                                ");}
+			pros::delay(50);
+			info.print(2,0,"                                                        ");
 		} else if (page == 1) {
-			info.print(0,0, "f: %d, %d", (int)std::round(LeftFront.get_temperature()),(int)std::round(RightFront.get_temperature()));
-			info.print(1,0, "m: %d, %d", (int)std::round(LeftMid.get_temperature()),(int)std::round(RightMid.get_temperature()));
-			info.print(2,0, "b: %d, %d", (int)std::round(LeftBack.get_temperature()),(int)std::round(RightBack.get_temperature()));
+			info.print(0,0, "f: %d, %d                                 ", (int)std::round(LeftFront.get_temperature()),(int)std::round(RightFront.get_temperature()));pros::delay(50);
+			info.print(1,0, "m: %d, %d                                ", (int)std::round(LeftMid.get_temperature()),(int)std::round(RightMid.get_temperature()));pros::delay(50);
+			info.print(2,0, "b: %d, %d                                ", (int)std::round(LeftBack.get_temperature()),(int)std::round(RightBack.get_temperature()));pros::delay(50);
+		}else if (page == 2) {
+			info.print(0,0, "intake	: %d                                ", (int)std::round(intake.get_temperature()));pros::delay(50);
+			info.print(1,0, "                                          ");pros::delay(50);
+			info.print(2,0, "                                          ");pros::delay(50);
 		}
-		pros::delay(60);
+		pros::delay(50);
 	}
 }
 
@@ -157,7 +163,6 @@ void opcontrol() {
 			doinker.set_value(doinkerValue);
 		}
 		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
-			info.clear();
 			if (page != 0){
 				page--;
 			} else {
@@ -166,7 +171,6 @@ void opcontrol() {
 			
 		}
 		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
-			info.clear();
 			if (page != pagenums){
 				page++;
 			} else{
