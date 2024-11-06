@@ -14,15 +14,15 @@ pros::Motor RightBack(-2);
 pros::Motor LeftFront(-4);
 pros::Motor LeftMid(-5);
 pros::Motor LeftBack(6);
-    pros::MotorGroup LDrive({-4, -5, 6});
+    pros::MotorGroup LDrive({-7, -5, 6});
 
-pros::Motor intake(7);    
-pros::Motor midlifter(10, pros::v5::MotorGears::red);
+pros::Motor intake(9);    
+pros::Motor midlifter(20, pros::v5::MotorGears::red);
 
 #define mogo 3 // C
 pros::adi::DigitalOut mogomech (mogo);
 
-#define doinkerport 4 // D
+#define doinkerport 1 // D
 pros::adi::DigitalOut doinker (doinkerport); // this is the thing that clears the corner
 
 #define intakeport 6 // F
@@ -119,4 +119,4 @@ lemlib::ControllerSettings angularController {
 
 lemlib::Chassis chassis(drivetrain, lateralController, angularController, sensors);
 
-pros::Optical optical_sensor(12);
+pros::Optical optical_sensor(20);

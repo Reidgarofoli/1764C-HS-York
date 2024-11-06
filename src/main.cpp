@@ -29,7 +29,7 @@ void on_left_button() {
 
 void midlift(){
 	while (true) {
-		if (midlifter.get_position() != liftpos){
+		if (midlifter.get_position() != liftpos*5){
 			midlifter.move_absolute(liftpos*5, 100);
 		} else {
 			midlifter.brake();
