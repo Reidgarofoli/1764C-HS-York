@@ -207,6 +207,13 @@ void opcontrol() {
 				confirm = true;
 			}
 		}
+		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+			if (!confirm) {
+				chassis.setPose(0,0,0);
+				chassis.moveToPoint(0,10,2000,{},true);
+				chassis.turnToPoint(20,33, 2000,{},true);
+			}
+		}
 		pros::delay(20);
 
 	}

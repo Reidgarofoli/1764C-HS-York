@@ -2,11 +2,27 @@
 ASSET(redrush_txt);
 //pid tuning
 void auton_0() {
-    chassis.setPose(0,0,45);
+    //chassis.setPose(0,0,45);
     intaking = 1;
-    chassis.moveiToPose(24,24,45,2000,{}, false);
-    pros::delay(200);
+    chassis.moveToPose(25,40,40,2000,{}, false);
+    pros::delay(300);
     intaking = 0;
+    chassis.turnToPoint(25,62,2000,{.forwards = false}, false);
+    chassis.moveToPose(25,62,theta(),2000,{.forwards = false}, false);
+    mogovalue = true;
+    mogomech.set_value(mogovalue);
+    intaking = 1;
+    pros::delay(200);
+    chassis.moveToPose(25,50,180,2000,{.forwards = true}, false);
+    mogovalue = false;
+    mogomech.set_value(mogovalue);
+    pros::delay(200);
+    chassis.turnToPoint(0,45,2000,{.forwards = false}, false);
+    chassis.moveToPose(0,45,theta(), 2000,{.forwards = false}, false);
+    
+    mogovalue = true;
+    mogomech.set_value(mogovalue);
+    pros::delay(200);
 }
 
 void auton_1() {
