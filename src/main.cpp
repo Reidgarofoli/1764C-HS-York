@@ -81,6 +81,7 @@ void printinf(){
 			info.print(1,0, "                                          ");pros::delay(50);
 			info.print(2,0, "                                          ");pros::delay(50);
 		}
+		pros::lcd::print(0, "x=%f, y=%f, theta=%f", chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
 		pros::delay(50);
 	}
 }
@@ -102,7 +103,7 @@ void initialize() {
 	intakeLifter.set_value(intakePOS);
 
 	mogomech.set_value(mogovalue);
-	optical_sensor.set_led_pwm(50);
+	optical_sensor.set_led_pwm(100);
 }
 
 void disabled() {

@@ -1,11 +1,12 @@
 #include "variables.hpp"
-
+ASSET(redrush_txt);
 //pid tuning
 void auton_0() {
-    chassis.setPose(0,0,180);
-    chassis.moveToPose(0, 14, 180, 10000, {.forwards = false}, false);
-    mogovalue = true;
-    mogomech.set_value(mogovalue);
+    chassis.setPose(0,0,45);
+    intaking = 1;
+    chassis.moveiToPose(24,24,45,2000,{}, false);
+    pros::delay(200);
+    intaking = 0;
 }
 
 void auton_1() {
