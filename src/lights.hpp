@@ -7,7 +7,7 @@ pros::adi::Led led(5, 60);
 
 int counter = 0;
 int numColors = 255;
-char team = 'r';
+char team = 'b';
 
 long HSBtoRGB(float _hue, float _sat, float _brightness) {
     float red = 0.0;

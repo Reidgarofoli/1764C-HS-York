@@ -1,7 +1,6 @@
 #include "main.h"
 //#include "lemlib/api.hpp"
 #include "pros/optical.hpp"
-#include "lights.hpp"
 #include "autons.hpp"
 #include "liblvgl/llemu.hpp"
 
@@ -209,9 +208,15 @@ void opcontrol() {
 		}
 		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			if (!confirm) {
-				chassis.setPose(0,0,0);
-				chassis.moveToPoint(0,10,2000,{},true);
-				chassis.turnToPoint(20,33, 2000,{},true);
+				if (team == 'r'){
+					chassis.setPose(0,0,0);
+					chassis.moveToPoint(0,10,2000,{},true);
+					chassis.turnToPoint(20,33, 2000,{},true);
+				} else {
+					chassis.setPose(0,0,0);
+					chassis.moveToPoint(0,10,2000,{},true);
+					chassis.turnToPoint(-20,33, 2000,{},true);
+				}
 			}
 		}
 		pros::delay(20);
