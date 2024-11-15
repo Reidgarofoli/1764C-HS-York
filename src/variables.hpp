@@ -18,7 +18,7 @@ pros::Motor LeftBack(6);
     pros::MotorGroup LDrive({-7, -5, 6});
 
 pros::Motor intake(9);    
-pros::Motor midlifter(19, pros::v5::MotorGears::red);
+pros::Motor midlifter(18, pros::v5::MotorGears::red);
 
 #define mogo 3 // C
 pros::adi::DigitalOut mogomech (mogo);
@@ -29,7 +29,6 @@ pros::adi::DigitalOut doinker (doinkerport); // this is the thing that clears th
 #define intakeport 6 // F
 pros::adi::DigitalOut intakeLifter (intakeport); // this is the thing that changes if we get the top or bottom ring
 
-bool intakePOS = false;
 int intaking = 0;
 //speed of intake
 int intakespeed = 127;
@@ -37,8 +36,8 @@ int maxauto = 4;
 int auton = 0;
 int midliftPOS = 0;
 double lowpos = 0;
-double midpos = -105;
-double highpos = -420;
+double midpos = -145;
+double highpos = -460;
 double liftpos;
 bool mogovalue = false;
 bool doinkerValue = false;
@@ -123,6 +122,7 @@ lemlib::Chassis chassis(drivetrain, lateralController, angularController, sensor
 
 float theta(){
 	return chassis.getPose().theta;
+	
 }
 
 pros::Optical optical_sensor(20);

@@ -99,7 +99,7 @@ void initialize() {
 	pros::Task printing(printinf);
 	lightsCheck();
 	midlifter.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	intakeLifter.set_value(intakePOS);
+	intakeLifter.set_value(true);
 
 	mogomech.set_value(mogovalue);
 	optical_sensor.set_led_pwm(100);
@@ -206,6 +206,9 @@ void opcontrol() {
 				confirm = true;
 			}
 		}
+		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+			intakeLifter.set_value(false);
+		}
 		if (info.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			if (!confirm) {
 				if (team == 'r'){
@@ -213,9 +216,10 @@ void opcontrol() {
 					chassis.moveToPoint(0,10,2000,{},true);
 					chassis.turnToPoint(20,33, 2000,{},true);
 				} else {
+					liftpos = midpos;
 					chassis.setPose(0,0,0);
-					chassis.moveToPoint(0,10,2000,{},true);
-					chassis.turnToPoint(-20,33, 2000,{},true);
+					chassis.moveToPoint(0,3,2000,{},true);
+					chassis.swingToHeading(80, DriveSide::RIGHT,2000,{},true);
 				}
 			}
 		}

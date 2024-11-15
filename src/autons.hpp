@@ -3,6 +3,7 @@
 //pid tuning
 void auton_0() { // this is for red side right side WP auton
     if (team == 'r'){
+        
         intaking = 1;// start intake so that we can egt the first ring.
         chassis.moveToPoint(25,39,2000,{}, false);//go to first ring.
         intaking = 0;//stop intake.
@@ -27,55 +28,44 @@ void auton_0() { // this is for red side right side WP auton
         pros::delay(200);//wait .2 seconds.
         intaking = 1;//start intake. pre load should be scored from this
         pros::delay(1400);//wait 1.4 seconds. 
-        intakePOS = true;//lift the first stage of intake to grab top red ring 
-        intakeLifter.set_value(intakePOS);
+        intakeLifter.set_value(true);
         chassis.turnToHeading(225,2000,{},false);//turn to to the top red ring
         chassis.moveToPoint(-6,25,2000,{},false); //go to top red ring
         pros::delay(200);
-        intakePOS = false;//lower the first stage of intake to grab top red ring 
-        intakeLifter.set_value(intakePOS);
+        intakeLifter.set_value(false);
         chassis.moveToPose(-1,28, 270, 3000,{.forwards=false, .minSpeed=50, .earlyExitRange=3},false);
         chassis.turnToHeading(320,2000,{},false);
         chassis.moveToPose(-9,30, 320, 2000,{},false);
-   } else {//blue team leftside 
+   } else { //blue team leftside 
+        intaking=1;
+        intakeLifter.set_value(false);//false down
+        pros::delay(100); //
+        chassis.moveToPoint(12,15.5,2000,{},false);
+        intaking = 0;
+        intakeLifter.set_value(true);
+        chassis.turnToHeading(0,2000,{},false);
 
-        intaking = 1;// start intake so that we can egt the first ring.
-        chassis.moveToPoint(-24,36,2000,{}, false);//go to first ring.
-        intaking = 0;//stop intake.
-        chassis.turnToPoint(-21, 47, 2000, {.forwards = false}, false);
-        chassis.moveToPose(-21, 47, 180,2000, {.forwards = false, .lead=0.3,}, false);
-        mogovalue = true;//activate mogo. grabs and holds on to mobile goal 
+        chassis.swingToHeading(-90,DriveSide::RIGHT,2000, {},false);
+        chassis.turnToHeading(-170,2000,{},false);
+        chassis.moveToPoint(22,-3,2000,{},false);
+        liftpos=highpos;
+        pros::delay(400);
+
+
+        chassis.moveToPose(-3,40,-210,2000,{.forwards=false, .minSpeed = 80, .earlyExitRange = 3},false);
+        // chassis.turnToHeading(-180,2000,{},false);
+        pros::delay(500);
+        mogovalue = true;//close mogo to grab mobile goal
         mogomech.set_value(mogovalue);
         pros::delay(500);
+        chassis.turnToPoint(-20, 38,2000,{},false);
+        intakeLifter.set_value(false); // drop intake down
         intaking = 1;
-        chassis.moveToPose(-21,32, 180, 10000,{},false);//go toward our side and bring mogo with us.
-        pros::delay(500);//wait 0.5 seconds.
-        mogovalue = false;//open mogo to release mobile goal.
-        mogomech.set_value(mogovalue);
-        pros::delay(500);
-        chassis.turnToHeading(-90, 2000, {}, false);
-        chassis.moveToPoint(-5, 30, 2000, {.forwards = false, .minSpeed=80, .earlyExitRange=3}, false);
-        pros::delay(600);
-        mogovalue = true;//activate mogo. grabs and holds on to mobile goal 
-        mogomech.set_value(mogovalue);
-        chassis.moveToPoint(3, 30, 2000, {.forwards = false}, false);
-        chassis.turnToHeading(180,2000,{},false);
-        chassis.moveToPose(15, 7, 90, 2000, {}, false);
-
-        pros::delay(500);
-        // chassis.turnToHeading(-220, 2000, {}, false);
-        // chassis.moveToPose(17, 8, 90, 2000, {}, false);
-        intakePOS = true; //lift the first stage of intake to grab top red ring 
-        intakeLifter.set_value(intakePOS);
-        pros::delay(200);
-        chassis.moveToPoint(25,7,2000,{},false);
-        pros::delay(200);
-        intakePOS = false;//drop the first stage of intake to grab top red ring 
-        intakeLifter.set_value(intakePOS);
-        chassis.moveToPoint(15,7,2000,{.forwards = false},false);
-        chassis.turnToHeading(-320, 2000, {}, false);
-        chassis.moveToPoint(27, 26, 2000, {.maxSpeed = 50}, false);
-   }
+        chassis.moveToPoint(-20, 38, 2000, {}, false);
+        chassis.moveToPoint(-25, 38, 2000, {}, false);
+        chassis.turnToPoint(14,50,2000, {}, false);
+        chassis.moveToPoint(14,50,2000, {}, false);
+    }
 }
 
 void auton_1() {
