@@ -3,11 +3,11 @@
 #include "pros/optical.hpp"
 #include "pros/adi.hpp"
 
-pros::adi::Led led(5, 60);
+pros::adi::Led led(8, 60);
 
 int counter = 0;
 int numColors = 255;
-char team = 'b';
+char team = 'r';
 
 long HSBtoRGB(float _hue, float _sat, float _brightness) {
     float red = 0.0;
